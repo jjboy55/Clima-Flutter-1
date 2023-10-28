@@ -7,6 +7,25 @@ class CityScreen extends StatefulWidget {
 }
 
 class _CityScreenState extends State<CityScreen> {
+
+  TextEditingController controller = TextEditingController();
+  String cityName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {printText();});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
+  void printText(){
+    final text = controller.text;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,23 +42,38 @@ class _CityScreenState extends State<CityScreen> {
             children: <Widget>[
               Align(
                 alignment: Alignment.topLeft,
-                child: FlatButton(
-                  onPressed: () {},
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    size: 50.0,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      size: 50.0,
+                    ),
                   ),
                 ),
               ),
               Container(
                 padding: EdgeInsets.all(20.0),
-                child: null,
+                child: TextField(
+                  controller: controller,
+                  style: TextStyle(color: Colors.black),
+                  decoration: kTextFieldStyle,
+                  onChanged: (value){
+                    cityName = value;
+                  },
+                ),
               ),
-              FlatButton(
-                onPressed: () {},
-                child: Text(
-                  'Get Weather',
-                  style: kButtonTextStyle,
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context,cityName);
+                },
+                child: Container(
+                  child: Text(
+                    'Get Weather',
+                    style: kButtonTextStyle,
+                  ),
                 ),
               ),
             ],
